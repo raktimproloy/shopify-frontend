@@ -597,33 +597,6 @@ export function JobStats() {
             </div>
           </div>
         </div>
-
-        {/* Execution History */}
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h4 className="font-medium text-blue-900 mb-3">Recent Executions</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h5 className="text-sm font-medium text-blue-800 mb-2">Inventory Jobs</h5>
-              <div className="text-sm text-blue-700">
-                <p>Last Success: {jobStats.inventory.completed > 0 ? 'Recently' : 'Never'}</p>
-                <p>Last Failure: {jobStats.inventory.failed > 0 ? 'Recently' : 'Never'}</p>
-                <p>Success Rate: {jobStats.inventory.completed + jobStats.inventory.failed > 0 
-                  ? Math.round((jobStats.inventory.completed / (jobStats.inventory.completed + jobStats.inventory.failed)) * 100) 
-                  : 0}%</p>
-              </div>
-            </div>
-            <div>
-              <h5 className="text-sm font-medium text-blue-800 mb-2">Product Jobs</h5>
-              <div className="text-sm text-blue-700">
-                <p>Last Success: {jobStats.product.completed > 0 ? 'Recently' : 'Never'}</p>
-                <p>Last Failure: {jobStats.product.failed > 0 ? 'Recently' : 'Never'}</p>
-                <p>Success Rate: {jobStats.product.completed + jobStats.product.failed > 0 
-                  ? Math.round((jobStats.product.completed / (jobStats.product.completed + jobStats.product.failed)) * 100) 
-                  : 0}%</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );

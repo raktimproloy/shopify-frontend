@@ -325,8 +325,6 @@ export function InventoryMonitor() {
                 <th className="text-left p-3 font-medium text-gray-700">Status</th>
                 <th className="text-left p-3 font-medium text-gray-700">Internal</th>
                 <th className="text-left p-3 font-medium text-gray-700">Shopify</th>
-                <th className="text-left p-3 font-medium text-gray-700">Last Sync</th>
-                <th className="text-left p-3 font-medium text-gray-700">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -363,30 +361,6 @@ export function InventoryMonitor() {
                     ) : (
                       <span className="text-gray-400">Not synced</span>
                     )}
-                  </td>
-                  
-                  <td className="p-3">
-                    <div className="space-y-1">
-                      {Object.entries(item.channels).map(([channelName, channelData]) => (
-                        <div key={channelName} className="flex items-center space-x-2">
-                          <span className="text-xs text-gray-500 capitalize">{channelName}:</span>
-                          {getSyncStatus(channelData.lastSync)}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                  
-                  <td className="p-3">
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">
-                        <RefreshCw className="h-3 w-3 mr-1" />
-                        Sync
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <TrendingUp className="h-3 w-3 mr-1" />
-                        Update
-                      </Button>
-                    </div>
                   </td>
                 </tr>
               ))}
