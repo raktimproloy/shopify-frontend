@@ -1,8 +1,11 @@
-import { Heart, ShoppingCart, Star } from 'lucide-react';
+'use client'
+import { Heart, ShoppingCart, Star, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Product } from '@/lib/api';
+import { useCart } from '@/contexts/CartContext';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -20,14 +23,33 @@ export function ProductCard({ product }: ProductCardProps) {
     variants
   } = product;
 
+  const { addToCart, isItemInCart } = useCart();
+  const [selectedVariant, setSelectedVariant] = useState(product.variants[0] || null);
+  const [addingToCart, setAddingToCart] = useState(false);
+
   // Get the first variant for display purposes
   const firstVariant = variants[0];
-  const price = firstVariant ? parseFloat(firstVariant.price) : parseFloat(basePrice);
+  const price = firstVariant ? parseFloat(firstVariant.price) : parseFloat(basePrice || '0');
   const image = firstVariant?.images?.[0] || '/placeholder-image.svg'; // Fallback image
   
   // Calculate average rating and review count (since API doesn't provide these)
   const rating = 4.5; // Default rating
   const reviewCount = 0; // Default review count
+
+  const handleAddToCart = async () => {
+    if (!selectedVariant) return;
+    
+    try {
+      setAddingToCart(true);
+      await addToCart(product, selectedVariant, 1);
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  const isInCart = selectedVariant ? isItemInCart(product.id, selectedVariant.id) : false;
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -109,10 +131,22 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardContent>
       
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full" size="sm">
-          <ShoppingCart className="mr-2 h-4 w-4" />
-          Add to Cart
-        </Button>
+        {isInCart ? (
+          <Button className="w-full" size="sm" variant="outline" disabled>
+            <Check className="mr-2 h-4 w-4" />
+            In Cart
+          </Button>
+        ) : (
+          <Button 
+            className="w-full" 
+            size="sm" 
+            onClick={handleAddToCart}
+            disabled={addingToCart || !selectedVariant}
+          >
+            <ShoppingCart className="mr-2 h-4 w-4" />
+            {addingToCart ? 'Adding...' : 'Add to Cart'}
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

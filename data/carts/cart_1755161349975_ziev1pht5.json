@@ -1,0 +1,105 @@
+{
+  "id": "cart_1755161349975_ziev1pht5",
+  "items": [
+    {
+      "productId": 7,
+      "variantId": 4,
+      "quantity": 1,
+      "product": {
+        "id": 7,
+        "sku": "SHOPIFY-9980501885221",
+        "name": "drop sholder t shirt",
+        "description": "<p>desciption of dropsolder</p>",
+        "category": "Uncategorized",
+        "brand": "yup-dev-store",
+        "basePrice": "400.00",
+        "status": "active",
+        "createdAt": "2025-08-11T13:51:43.551Z",
+        "updatedAt": "2025-08-12T16:05:51.034Z",
+        "variants": [
+          {
+            "id": 4,
+            "productId": 7,
+            "sku": "SHOPIFY-9980501885221-50919336280357",
+            "name": "Default Title",
+            "size": "Animal",
+            "color": "L",
+            "price": "400.00",
+            "weight": "0.00",
+            "dimensions": null,
+            "images": [],
+            "createdAt": "2025-08-11T13:51:43.555Z",
+            "updatedAt": "2025-08-12T16:05:51.041Z"
+          }
+        ]
+      },
+      "variant": {
+        "id": 4,
+        "productId": 7,
+        "sku": "SHOPIFY-9980501885221-50919336280357",
+        "name": "Default Title",
+        "size": "Animal",
+        "color": "L",
+        "price": "400.00",
+        "weight": "0.00",
+        "dimensions": null,
+        "images": [],
+        "createdAt": "2025-08-11T13:51:43.555Z",
+        "updatedAt": "2025-08-12T16:05:51.041Z"
+      },
+      "addedAt": "2025-08-14T08:49:37.313Z"
+    },
+    {
+      "productId": 6,
+      "variantId": 3,
+      "quantity": 1,
+      "product": {
+        "id": 6,
+        "sku": "SHOPIFY-9980008694053",
+        "name": "tshirt",
+        "description": "<p>des</p>",
+        "category": "Uncategorized",
+        "brand": "yup-dev-store",
+        "basePrice": "100.00",
+        "status": "active",
+        "createdAt": "2025-08-11T10:26:59.184Z",
+        "updatedAt": "2025-08-12T16:05:51.055Z",
+        "variants": [
+          {
+            "id": 3,
+            "productId": 6,
+            "sku": "SHOPIFY-9980008694053-50917722554661",
+            "name": "Default Title",
+            "size": "Default Title",
+            "color": "Default",
+            "price": "100.00",
+            "weight": "0.00",
+            "dimensions": null,
+            "images": [],
+            "createdAt": "2025-08-11T10:26:59.187Z",
+            "updatedAt": "2025-08-12T16:05:51.060Z"
+          }
+        ]
+      },
+      "variant": {
+        "id": 3,
+        "productId": 6,
+        "sku": "SHOPIFY-9980008694053-50917722554661",
+        "name": "Default Title",
+        "size": "Default Title",
+        "color": "Default",
+        "price": "100.00",
+        "weight": "0.00",
+        "dimensions": null,
+        "images": [],
+        "createdAt": "2025-08-11T10:26:59.187Z",
+        "updatedAt": "2025-08-12T16:05:51.060Z"
+      },
+      "addedAt": "2025-08-14T08:49:38.984Z"
+    }
+  ],
+  "totalItems": 2,
+  "totalPrice": 500,
+  "createdAt": "2025-08-14T08:49:32.541Z",
+  "updatedAt": "2025-08-14T08:49:39.034Z"
+}

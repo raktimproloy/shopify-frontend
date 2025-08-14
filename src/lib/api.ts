@@ -90,7 +90,10 @@ export async function fetchProducts(filters: ProductFilters = {}): Promise<Produ
       filters.style.forEach(s => queryParams.append('style', s));
     }
 
-    const response = await fetch(`${API_BASE_URL}/products?${queryParams.toString()}`);
+    const response = await fetch(`${API_BASE_URL}/products?${queryParams.toString()}`, {
+      // Add cache options for server-side rendering
+      next: { revalidate: 60 }, // Revalidate every 60 seconds
+    });
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

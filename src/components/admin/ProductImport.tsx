@@ -15,7 +15,7 @@ interface ProductImportProps {
 
 export function ProductImport({ onImportComplete }: ProductImportProps) {
   const [isImporting, setIsImporting] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [importLimit, setImportLimit] = useState(50);
   const [importResults, setImportResults] = useState<any>(null);
 
@@ -28,7 +28,7 @@ export function ProductImport({ onImportComplete }: ProductImportProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          categoryId: selectedCategory || undefined,
+          categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
           limit: importLimit,
         }),
       });
@@ -63,7 +63,7 @@ export function ProductImport({ onImportComplete }: ProductImportProps) {
                 <SelectValue placeholder="All categories" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All categories</SelectItem>
+                <SelectItem value="all">All categories</SelectItem>
                 <SelectItem value="1">T-Shirts</SelectItem>
                 <SelectItem value="2">Hoodies</SelectItem>
                 <SelectItem value="3">Tank Tops</SelectItem>

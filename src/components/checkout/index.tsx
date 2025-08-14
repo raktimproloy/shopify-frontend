@@ -9,26 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-
-// Mock cart data
-const cartItems = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 99.99,
-    quantity: 2,
-    image: "/api/placeholder/80/80"
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 199.99,
-    quantity: 1,
-    image: "/api/placeholder/80/80"
-  }
-];
+import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 export function CheckoutPage() {
+  const { cart, loading } = useCart();
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     // Shipping Information
@@ -66,7 +52,25 @@ export function CheckoutPage() {
     marketing: false
   });
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  // Redirect to cart if no items
+  if (!loading && (!cart || cart.items.length === 0)) {
+    router.push('/cart');
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading checkout...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Calculate totals from actual cart data
+  const subtotal = cart?.totalPrice || 0;
   const shipping = 9.99;
   const tax = subtotal * 0.08; // 8% tax
   const total = subtotal + shipping + tax;
@@ -81,6 +85,10 @@ export function CheckoutPage() {
     { id: 3, title: 'Review', icon: Check }
   ];
 
+  const handlePlaceOrder = () => {
+    alert(`Order placed successfully! Total amount: $${total.toFixed(2)}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -88,7 +96,7 @@ export function CheckoutPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" onClick={() => router.back()}>
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <h1 className="text-2xl font-bold">Checkout</h1>
@@ -422,8 +430,7 @@ export function CheckoutPage() {
               <Button 
                 onClick={() => {
                   if (currentStep === 3) {
-                    // Handle order submission
-                    alert('Order placed successfully!');
+                    handlePlaceOrder();
                   } else {
                     setCurrentStep(Math.min(3, currentStep + 1));
                   }
@@ -443,18 +450,20 @@ export function CheckoutPage() {
               <CardContent className="space-y-4">
                 {/* Cart Items */}
                 <div className="space-y-3">
-                  {cartItems.map((item) => (
-                    <div key={item.id} className="flex items-center space-x-3">
+                  {cart?.items.map((item) => (
+                    <div key={`${item.productId}-${item.variantId}`} className="flex items-center space-x-3">
                       <img 
-                        src={item.image} 
-                        alt={item.name}
+                        src={item.variant.images?.[0] || '/placeholder-image.svg'} 
+                        alt={item.product.name}
                         className="w-12 h-12 object-cover rounded bg-gray-100"
                       />
                       <div className="flex-1">
-                        <h4 className="font-medium text-sm">{item.name}</h4>
-                        <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                        <h4 className="font-medium text-sm">{item.product.name}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {item.variant.size} • {item.variant.color} • Qty: {item.quantity}
+                        </p>
                       </div>
-                      <span className="font-medium">${(item.price * item.quantity).toFixed(2) || 0}</span>
+                      <span className="font-medium">${(parseFloat(item.variant.price) * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
@@ -464,21 +473,21 @@ export function CheckoutPage() {
                 {/* Price Breakdown */}
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2) || 0}</span>
+                    <span>Subtotal ({cart?.totalItems || 0} items)</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>${shipping.toFixed(2) || 0}</span>
+                    <span>${shipping.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Tax</span>
-                    <span>${tax.toFixed(2) || 0}</span>
+                    <span>Tax (8%)</span>
+                    <span>${tax.toFixed(2)}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total</span>
-                    <span>${total.toFixed(2) || 0}</span>
+                    <span>${total.toFixed(2)}</span>
                   </div>
                 </div>
               </CardContent>

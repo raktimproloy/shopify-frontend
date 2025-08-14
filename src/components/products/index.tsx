@@ -50,9 +50,9 @@ export default function ProductsPage() {
     const brands = [...new Set(products.map(p => p.brand))];
     const statuses = [...new Set(products.map(p => p.status))];
     
-    // Extract sizes and colors from variants
-    const sizes = [...new Set(products.flatMap(p => p.variants.map(v => v.size)))];
-    const colors = [...new Set(products.flatMap(p => p.variants.map(v => v.color)))];
+    // Extract sizes and colors from variants (safely)
+    const sizes = [...new Set(products.flatMap(p => p.variants?.map(v => v.size) || []))];
+    const colors = [...new Set(products.flatMap(p => p.variants?.map(v => v.color) || []))];
     
     // For styles, we'll use a default set since it's not in the API
     const styles = ['Casual', 'Formal', 'Sport', 'Urban'];
@@ -411,7 +411,7 @@ export default function ProductsPage() {
               ) : (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product) => (
+                    {products.filter(product => product && product.variants).map((product) => (
                       <ProductCard key={product.id} product={product} />
                     ))}
                   </div>
